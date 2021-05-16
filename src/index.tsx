@@ -94,9 +94,11 @@ export const Player = forwardRef<PlayerRef, Props>(function Player(
             replayer.current.on('skip-start', () => setSkipping(true))
             replayer.current.on('skip-end', () => setSkipping(false))
 
+            // replayer.current.play()
+
             const meta = replayer.current.getMetaData()
 
-            setPlaying(true)
+            // setPlaying(true)
             setMeta(meta)
 
             wrapper.current!.focus()
