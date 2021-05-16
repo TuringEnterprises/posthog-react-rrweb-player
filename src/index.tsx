@@ -85,7 +85,7 @@ export const Player = forwardRef<PlayerRef, Props>(function Player(
         if (frame.current) {
             replayer.current = new Replayer(props.events, {
                 root: frame.current,
-                skipInactive: true,
+                skipInactive: false,
                 triggerFocus: false,
                 speed
             })
@@ -93,8 +93,6 @@ export const Player = forwardRef<PlayerRef, Props>(function Player(
             replayer.current.on('finish', pause)
             replayer.current.on('skip-start', () => setSkipping(true))
             replayer.current.on('skip-end', () => setSkipping(false))
-
-            replayer.current.play()
 
             const meta = replayer.current.getMetaData()
 
@@ -129,7 +127,6 @@ export const Player = forwardRef<PlayerRef, Props>(function Player(
     useEffect(() => {
         if(replayer && replayer.current){
             const meta = replayer.current.getMetaData();
-            console.log("setting total time ", props.totalTime);
             setMeta(meta)
         }
     }, [props.totalTime])
