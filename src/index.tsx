@@ -42,7 +42,8 @@ interface Props {
     events: eventWithTime[]
     onPlayerTimeChange?: (playerTime: number) => void
     onPrevious?: () => void
-    onNext?: () => void
+    onNext?: () => void,
+    totalTime: number
 }
 
 export interface PlayerRef {
@@ -124,6 +125,16 @@ export const Player = forwardRef<PlayerRef, Props>(function Player(
             replayer.current.setConfig({ speed })
         }
     }, [speed])
+
+    
+    useEffect(() => {
+        if(replayer && replayer.current){
+            const meta = replayer.current.getMetaData();
+            console.log("setting total time ", props.totalTime);
+            setMeta(meta)
+        }
+    }, [props.totalTime])
+
 
     const stopTimer = () => {
         if (timer.current) {
