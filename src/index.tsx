@@ -1,5 +1,4 @@
 import React, {
-    ForwardedRef,
     forwardRef,
     RefObject,
     useEffect,
@@ -53,7 +52,7 @@ export interface PlayerRef {
 
 export const Player = forwardRef<PlayerRef, Props>(function Player(
     props: Props,
-    ref: ForwardedRef<PlayerRef>
+    ref: any
 ) {
     const [playing, setPlaying] = useState(true)
     const [skipping, setSkipping] = useState(false)
