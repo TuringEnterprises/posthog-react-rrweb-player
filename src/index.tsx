@@ -9,9 +9,6 @@ import React, {
 import Slider from 'rc-slider/lib/Slider'
 import {
     IconPlay,
-    IconSeekBack,
-    IconStepBackward,
-    IconStepForward,
     IconFullscreen,
     IconPause
 } from './icons'
@@ -34,7 +31,7 @@ export { EventIndex, findCurrent } from './eventIndex'
 export { formatTime } from './time'
 
 const JUMP_TIME_MS = 8_000
-const PLAYBACK_SPEEDS = [0.5, 1, 2, 4, 8, 16]
+const PLAYBACK_SPEEDS = [1, 2, 4, 8]
 const NOOP = () => {}
 
 interface Props {
@@ -42,7 +39,8 @@ interface Props {
     onPlayerTimeChange?: (playerTime: number) => void
     onPrevious?: () => void
     onNext?: () => void,
-    totalTime: number
+    totalTime?: number,
+    isLoadingDone?: boolean
 }
 
 export interface PlayerRef {
@@ -221,10 +219,6 @@ export const Player = forwardRef<PlayerRef, Props>(function Player(
         }
     }
 
-    const seekBack = () => {
-        seek(currentTime - JUMP_TIME_MS)
-    }
-
     const toggleFullScreen = () => {
         if (screenfull.isEnabled && wrapper.current) {
             screenfull.toggle(wrapper.current)
@@ -283,49 +277,6 @@ export const Player = forwardRef<PlayerRef, Props>(function Player(
                                 )}
                             </span>
                         </Tooltip>
-                        <Tooltip
-                            placement='top'
-                            overlayInnerStyle={{ minHeight: 'auto' }}
-                            overlay={`Back ${
-                                JUMP_TIME_MS / 1000
-                            }s (← left arrow)`}
-                        >
-                            <span>
-                                <IconSeekBack onClick={seekBack} />
-                            </span>
-                        </Tooltip>
-                        <span className='ph-rrweb-timestamp'>
-                            {formatTime(currentTime)} /{' '}
-                            {formatTime(meta.totalTime)}
-                        </span>
-                    </div>
-                    <div style={{ justifyContent: 'center' }}>
-                        {props.onPrevious && (
-                            <Tooltip
-                                placement='top'
-                                overlayInnerStyle={{ minHeight: 'auto' }}
-                                overlay='Previous recording (a)'
-                            >
-                                <span>
-                                    <IconStepBackward
-                                        onClick={props.onPrevious}
-                                    />
-                                </span>
-                            </Tooltip>
-                        )}
-                        {props.onNext && (
-                            <Tooltip
-                                placement='top'
-                                overlayInnerStyle={{ minHeight: 'auto' }}
-                                overlay='Next recording (d)'
-                            >
-                                <span>
-                                    <IconStepForward onClick={props.onNext} />
-                                </span>
-                            </Tooltip>
-                        )}
-                    </div>
-                    <div style={{ justifyContent: 'flex-end' }}>
                         {PLAYBACK_SPEEDS.map((speedToggle, index) => (
                             <React.Fragment key={speedToggle}>
                                 <Tooltip
@@ -350,6 +301,39 @@ export const Player = forwardRef<PlayerRef, Props>(function Player(
                                 </Tooltip>
                             </React.Fragment>
                         ))}
+                        
+                    </div>
+                    <div style={{ justifyContent: 'center' }}>
+                        <span className='ph-rrweb-timestamp'>
+                            <span>{formatTime(currentTime)}</span>
+                            {props.isLoadingDone && <span>/{' '}{formatTime(meta.totalTime)}</span>}
+                        </span>
+                        {/* {props.onPrevious && (
+                            <Tooltip
+                                placement='top'
+                                overlayInnerStyle={{ minHeight: 'auto' }}
+                                overlay='Previous recording (a)'
+                            >
+                                <span>
+                                    <IconStepBackward
+                                        onClick={props.onPrevious}
+                                    />
+                                </span>
+                            </Tooltip>
+                        )}
+                        {props.onNext && (
+                            <Tooltip
+                                placement='top'
+                                overlayInnerStyle={{ minHeight: 'auto' }}
+                                overlay='Next recording (d)'
+                            >
+                                <span>
+                                    <IconStepForward onClick={props.onNext} />
+                                </span>
+                            </Tooltip>
+                        )} */}
+                    </div>
+                    <div style={{ justifyContent: 'flex-end' }}>
                         {screenfull.isEnabled && (
                             <Tooltip
                                 placement='top'

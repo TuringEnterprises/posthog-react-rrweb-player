@@ -27,11 +27,9 @@
   box-sizing: border-box;
   width: 100%;
   padding: 6px;
-
-  background-color: #333;
+  background: linear-gradient(#ccc, #474747);
   color: white;
   padding-bottom: 12px;
-
   align-self: flex-end;
 }
 
