@@ -98,8 +98,6 @@ export const Player = forwardRef<PlayerRef, Props>(function Player(
 
             // setPlaying(true)
             setMeta(meta)
-
-            wrapper.current!.focus()
         }
 
         return () => {
@@ -165,8 +163,6 @@ export const Player = forwardRef<PlayerRef, Props>(function Player(
             seek(currentTime - JUMP_TIME_MS)
         } else if (event.key === 'ArrowRight') {
             seek(currentTime + JUMP_TIME_MS)
-        } else if (event.key === 'f') {
-            toggleFullScreen()
         } else if (event.key === 'a') {
             props.onPrevious && props.onPrevious()
         } else if (event.key === 'd') {
